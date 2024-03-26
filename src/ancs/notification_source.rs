@@ -5,6 +5,7 @@ use tokio::sync::mpsc;
 pub const NOTIFICATION_SOURCE_UUID: Uuid = Uuid::from_u128(0x9FBF120D630142D98C5825E699A21DBD);
 
 // Contains notification event
+#[derive(Clone)]
 pub struct NotificationEvent {
     pub event_id: u8,
     pub event_flags: u8,
