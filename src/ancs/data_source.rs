@@ -149,18 +149,3 @@ pub async fn listener(
         }
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn notification_attributes() {
-        unimplemented!()
-    }
-
-    #[test]
-    fn app_attributes() {
-        unimplemented!()
-    }
-}
