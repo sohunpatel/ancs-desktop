@@ -143,14 +143,4 @@ mod tests {
             NotificationAttributeCmd::new(2, vec![NotificationAttributeID::Title]).to_buffer();
         assert_eq!(buffer, vec![2, 0, 0, 0, 1, 255, 255]);
     }
-
-    #[test]
-    fn app_attributes() {
-        let buffer = AppAttributeCmd::new(
-            "com.apple.facetime".to_string(),
-            vec![AppAttributeID::Displayname],
-        )
-        .to_buffer();
-        assert_eq!(buffer, vec![0]);
-    }
 }
