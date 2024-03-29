@@ -139,7 +139,7 @@ mod tests {
 
     #[test]
     fn notification_attributes() {
-        let mut buffer =
+        let buffer =
             NotificationAttributeCmd::new(2, vec![NotificationAttributeID::Title]).to_buffer();
         assert_eq!(buffer, vec![2, 0, 0, 0, 1, 255, 255]);
     }
