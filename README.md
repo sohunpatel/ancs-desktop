@@ -1,6 +1,6 @@
-![GitHub License](https://img.shields.io/github/license/sohunpatel/ancs-desktop)[./LICENSE]
-![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/sohunpatel/ancs-desktop)[https://github.com/sohunpatel/ancs-desktop/issues]
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/sohunpatel/ancs-desktop/rust.yml)[https://github.com/sohunpatel/ancs-desktop/actions]
+[![GitHub License](https://img.shields.io/github/license/sohunpatel/ancs-desktop)](./LICENSE)
+[![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/sohunpatel/ancs-desktop)](https://github.com/sohunpatel/ancs-desktop/issues)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/sohunpatel/ancs-desktop/rust.yml)](ttps://github.com/sohunpatel/ancs-desktop/actions)
 
 # ANCS for Desktop
 
