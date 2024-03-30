@@ -1,7 +1,9 @@
 use bluer::{gatt::remote::Characteristic, Uuid};
 use futures::{pin_mut, StreamExt};
-use std::str;
 use tokio::sync::mpsc;
+
+use std::fmt;
+use std::str;
 
 use crate::ancs::control_point::{AppAttributeID, CommandID, NotificationAttributeID};
 
@@ -23,8 +25,14 @@ pub struct NotificationAttributes {
 
 impl NotificationAttributes {
     pub fn from_buffer(buffer: Vec<u8>) -> Self {
+        // clone buffer into local variable
         let mut buffer = buffer.clone();
+
+        // the first byte is the message type which specifies whether the message is a notification
+        // attribute or a app attribute
+        // TODO: move this into listener function
         buffer.remove(0);
+
         let notification_id = (buffer.remove(0) as u32)
             | ((buffer.remove(0) as u32) << 8)
             | ((buffer.remove(0) as u32) << 16)
@@ -88,6 +96,38 @@ impl NotificationAttributes {
     }
 }
 
+// Implement formatted display for Notification Attributes
+impl fmt::Display for NotificationAttributes {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let mut output = format!("id: {}", self.notification_id);
+        if let Some(app_identifier) = &self.app_identifier.clone() {
+            output += &format!(" app identifier: {}", app_identifier);
+        }
+        if let Some(title) = &self.title.clone() {
+            output += &format!(" title: {}", title);
+        }
+        if let Some(subtitle) = &self.subtitle.clone() {
+            output += &format!(" subtitle: {}", subtitle);
+        }
+        if let Some(message) = &self.message.clone() {
+            output += &format!(" message: {}", message);
+        }
+        if let Some(message_size) = self.message_size {
+            output += &format!(" message_size: {}", message_size);
+        }
+        if let Some(date) = self.date.clone() {
+            output += &format!(" date: {}", date);
+        }
+        if let Some(positive_action_label) = self.positive_action_label.clone() {
+            output += &format!(" positive action label: {}", positive_action_label);
+        }
+        if let Some(negative_action_label) = self.negative_action_label.clone() {
+            output += &format!(" negative action lable: {}", negative_action_label);
+        }
+        write!(f, "{}", output)
+    }
+}
+
 // App Attributes
 pub struct AppAttributes {
     pub app_identifier: String,
@@ -118,6 +158,16 @@ impl AppAttributes {
             app_identifier,
             display_name,
         }
+    }
+}
+
+impl fmt::Display for AppAttributes {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let mut output = format!("app identifier: {}", self.app_identifier);
+        if let Some(display_name) = self.display_name.clone() {
+            output += &format!("{}", display_name);
+        }
+        write!(f, "{}", output)
     }
 }
 

@@ -2,6 +2,8 @@ use bluer::{gatt::remote::Characteristic, Uuid};
 use futures::{pin_mut, StreamExt};
 use tokio::sync::mpsc;
 
+use std::fmt;
+
 pub const NOTIFICATION_SOURCE_UUID: Uuid = Uuid::from_u128(0x9FBF120D630142D98C5825E699A21DBD);
 
 // Contains notification event
@@ -26,6 +28,20 @@ impl NotificationEvent {
                 | ((buffer[6] as u32) << 16)
                 | ((buffer[7] as u32) << 24),
         }
+    }
+}
+
+impl fmt::Display for NotificationEvent {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "event id: {} event flags: {} category id: {} category count: {} notification id: {}",
+            self.event_id,
+            self.event_flags,
+            self.category_id,
+            self.category_count,
+            self.notification_id
+        )
     }
 }
 
