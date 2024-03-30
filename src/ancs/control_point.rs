@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use bluer::{gatt::remote::Characteristic, Uuid};
 use futures::{pin_mut, StreamExt};
 use tokio::sync::mpsc;
