@@ -3,6 +3,7 @@ use futures::{pin_mut, StreamExt};
 use tokio::sync::mpsc;
 
 use std::fmt;
+use std::u32;
 
 pub const NOTIFICATION_SOURCE_UUID: Uuid = Uuid::from_u128(0x9FBF120D630142D98C5825E699A21DBD);
 
@@ -23,10 +24,7 @@ impl NotificationEvent {
             event_flags: buffer[1],
             category_id: buffer[2],
             category_count: buffer[3],
-            notification_id: (buffer[4] as u32)
-                | ((buffer[5] as u32) << 8)
-                | ((buffer[6] as u32) << 16)
-                | ((buffer[7] as u32) << 24),
+            notification_id: u32::from_le_bytes(buffer[4..8].try_into().unwrap())
         }
     }
 }
@@ -62,5 +60,23 @@ pub async fn listener(
             }
             None => continue,
         }
+    }
+}
+
+#[cfg(test)]
+pub mod tests {
+    use super::*;
+
+    #[test]
+    fn notification_event() {
+        let buffer = vec![1, 2, 3, 4, 1, 2, 3, 4];
+
+        let event = NotificationEvent::from_buffer(buffer);
+
+        assert_eq!(event.event_id, 1);
+        assert_eq!(event.event_flags, 2);
+        assert_eq!(event.category_id, 3);
+        assert_eq!(event.category_count, 4);
+        assert_eq!(event.notification_id, 67305985);
     }
 }
